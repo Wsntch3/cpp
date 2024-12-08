@@ -1,0 +1,5 @@
+Barang ke- 1
+Nama Barang: Laptop
+Kode Barang: 3DF54
+Harga Barang: 7000000.00
+Jumlah Barang: 10
