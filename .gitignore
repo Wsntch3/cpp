@@ -1,0 +1,77 @@
+# Folder build dan binari
+build/
+bin/
+obj/
+
+# File sementara dan log
+*.log
+*.tmp
+*.temp
+*.pid
+*.seed
+
+# File output
+*.o
+*.a
+*.so
+*.exe
+*.dll
+*.dylib
+
+# File debugger
+*.dSYM/
+*.stackdump
+
+# File konfigurasi editor atau IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# File sementara editor
+*~
+\#*\#
+*.swp
+*.swo
+*.bak
+*.orig
+
+# File CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# File hasil build Meson
+*.ninja
+.ninja_deps
+.ninja_log
+meson-logs/
+meson-out/
+
+# File hasil build Autotools
+*.lo
+*.la
+*.al
+.libs/
+.deps/
+autom4te.cache/
+config.log
+config.status
+
+# File linting dan analisis
+.clangd/
+.clang-tidy/
+.clang-format/
+*.gcno
+*.gcda
+*.gcov
+
+# File paket
+*.zip
+*.tar.gz
+*.tar.bz2
+*.7z
+
+# File lain yang tidak diinginkan
+*.DS_Store
+*.directory

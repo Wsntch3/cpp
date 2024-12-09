@@ -1,5 +1,2 @@
-Barang ke- 1
-Nama Barang: Laptop
-Kode Barang: 3DF54
-Harga Barang: 7000000.00
-Jumlah Barang: 10
+Laptop 3DF54 7000000.00 10
+Stik ps 4FJJASH 400000.00 20

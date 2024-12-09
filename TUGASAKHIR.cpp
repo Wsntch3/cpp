@@ -24,23 +24,45 @@ string formatharga(float total){
 }
 
 
-    void simpanfile(){
+void simpanfile(){
     ofstream file("inventaris.txt");
-    if(!file){
+    if (!file.is_open()) {
         cout << "File tidak ada" << endl;
         return;
     }
 
-    for (int i=0; i<jumlahbarang; i++){
-        file << "Barang ke- " << i + 1 << endl;
-        file << "Nama Barang: " << Inventaris[i].nama << endl;
-        file << "Kode Barang: " << Inventaris[i].kode << endl;
-        file << "Harga Barang: " << formatharga(Inventaris[i].harga) << endl;
-        file << "Jumlah Barang: " << Inventaris[i].jumlah << endl;
+    for (int i = 0; i < jumlahbarang; i++) {
+        file << Inventaris[i].nama << " "
+             << Inventaris[i].kode << " "
+             << formatharga(Inventaris[i].harga) << " "
+             << Inventaris[i].jumlah << endl;
     }
     file.close();
     cout << "DATA BERHASIL DISIMPAN" << endl;
 }
+
+
+
+void bacafile(){
+    ifstream file("inventaris.txt");
+    if (file.is_open()){
+        jumlahbarang = 0;
+        while (file >> Inventaris[jumlahbarang].nama
+                    >> Inventaris[jumlahbarang].kode
+                    >> Inventaris[jumlahbarang].harga
+                    >> Inventaris[jumlahbarang].jumlah) {
+            cout << "Read: " << Inventaris[jumlahbarang].nama << " "
+                 << Inventaris[jumlahbarang].kode << " "
+                 << Inventaris[jumlahbarang].harga << " "
+                 << Inventaris[jumlahbarang].jumlah << endl;
+            jumlahbarang++;
+        }
+        file.close();
+    } else {
+        cout << "file tidak ada" << endl;
+    }
+}
+
 
 
 void tambahbarang(){
@@ -82,25 +104,57 @@ void tambahbarang(){
         }
     }
 
-    void updatebarang(){
-        if (jumlahbarang == 0){
-            cout << "Inventaris kosong" << endl;
-            return;
-        }
-        char kode[10];
-        cout << "Masukkan Kode Barang: ";
-        cin >> kode;
-        for (int i=0; i<jumlahbarang; i++){
-            if (strcmp(Inventaris[i].kode,kode ) == 0){
-                cout << "Barang Ditemukan,Masukkan Jumlah Baru: ";
-                cin >> Inventaris[i].jumlah;
-                cout << "Barang Berhasil Diupdate \n";
-                return;
-            } else {
-                 cout << "Barang Dengan Kode: " << kode << " Tidak Ditemukan" << endl;
-            }
-        } 
+
+    int caribarang(int index, const char* kode){
+    if (index >= jumlahbarang){
+        return -1;
     }
+    if (strcmp(Inventaris[index].kode, kode) == 0){
+        return index;
+    }
+    return caribarang(index + 1, kode);
+}
+
+void caribarang(){
+    if(jumlahbarang == 0){
+        cout << "Inventaris Kosong" << endl;
+        return;
+    }
+    char kode[10];
+    cout << "Masukkan Kode Barang: ";
+    cin >> kode;
+    int index = caribarang(0, kode);
+    if (index != -1){
+        cout << "BARANG DITEMUKAN" << endl;
+        cout << "Nama Barang:" << Inventaris[index].nama << endl;
+        cout << "Kode Barang: " << Inventaris[index].kode << endl;
+        cout << "Harga Barang: " << formatharga(Inventaris[index].harga) << endl;
+        cout << "Jumlah Barang: " << Inventaris[index].jumlah << endl;
+    } else {
+        cout << "Barang Dengan Kode: " << kode << " Tidak Ditemukan" << endl;
+    }
+}
+
+    void updatebarang(){
+    if(jumlahbarang == 0){
+        cout << "Inventaris Kosong" << endl;
+        return;
+    }
+    char kode[10];
+    cout << "Masukkan Kode Barang yang ingin diupdate: ";
+    cin >> kode;
+    int index = caribarang(0, kode);
+    if (index != -1){
+        cout << "Jumlah Barang Lama: " << Inventaris[index].jumlah << endl;
+        cout << "Masukkan Jumlah Barang Baru: ";
+        cin >> Inventaris[index].jumlah;
+
+        cout << "BARANG BERHASIL DIUPDATE" << endl;
+        simpanfile(); // Save the updated inventory to the file
+    } else {
+        cout << "Barang Dengan Kode: " << kode << " Tidak Ditemukan" << endl;
+    }
+}
 
     void jumlahhargabarang(){
         if (jumlahbarang == 0){
@@ -116,39 +170,12 @@ void tambahbarang(){
         cout << "Total Harga Barang Dalam Inventaris: Rp." << formatharga(total) << "\n" << endl;
     }
 
-    int caribarang(int index, const char* kode){
-        if (index >= jumlahbarang){
-            return -1;
-        }
-        if (strcmp(Inventaris[index].kode, kode) == 0){
-            return index;
-        }
-        return caribarang(index + 1, kode);
-    }
 
-
-    void caribarang(){
-        if(jumlahbarang == 0){
-            cout << "Inventaris Kosong" << endl;
-            return;
-        }
-        char kode[10];
-        cout << "Masukkan Kode Barang: ";
-        cin >> kode;
-        int index = caribarang(0, kode);
-        if (index != -1){
-            cout << "BARANG DITEMUKAN" << endl;
-            cout << "Nama Barang:" << Inventaris[index].nama << endl;
-            cout << "Kode Barang: " << Inventaris[index].kode << endl;
-            cout << "Harga Barang: " << formatharga(Inventaris[index].harga) << endl;
-            cout << "Jumlah Barang: " << Inventaris[index].jumlah << endl;
-        } else {
-            cout << "Barang Dengan Kode: " << kode << " Tidak Ditemukan" << endl;
-        }
-    }
+    
 
 
 int main(){
+    bacafile();
     int pilihan;
     do {
         cout << "Menu : " << endl;
